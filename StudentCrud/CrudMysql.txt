@@ -1,0 +1,59 @@
+-crete project asp.net core web mvc project
+-select version 7.0.0
+-right click on dependencies -> nudget package
+	Install-Package Microsoft.EntityFrameworkCore  
+	Install-Package Pomelo.mysql-Version  
+	Install-Package Microsoft.EntityFrameworkCore.Tools - 
+-create class student inside model
+-right click on project -> add -> new folder-> data
+	create class ApplicationDbContext 
+
+    	public class ApplicationDbContext : DbContext
+    	{
+        	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        	{ 
+        
+        	}
+        
+        	public DbSet<Student> Student { get; set; }    
+    	}
+	 
+
+
+-open appsetting.json
+	add 
+	 "ConnectionStrings": {
+   	 "DefaultConnectionMSSQLNoCred": "Server=DEVSTATION\\MSSQLSERVER2017;Database=TutorialDB;Trusted_Connection=True;MultipleActiveResultSets=true",
+   	 "DefaultConnectionMySQL": "server=localhost; port=3306; database=dotnet; user=root; password=Kalpesh; Persist Security Info=False; Convert Zero Datetime=True;Allow Zero Datetime=True; Connect Timeout=300"
+ 	 }
+
+
+
+-open program.cs
+	downside the var builser
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<ApplicationDbContext>();
+
+
+//MSSQL DB Conn:
+//string connString = builder.Configuration.GetConnectionString("DefaultConnectionMSSQLNoCred");
+//builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connString));
+
+
+//MySQL DB Conn
+string _GetConnStringName = builder.Configuration.GetConnectionString("DefaultConnectionMySQL");
+builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseMySql(_GetConnStringName, ServerVersion.AutoDetect(_GetConnStringName)));
+
+
+-create controller -> controller using entity framework-> 
+	select class as student
+	select context as ApplicationDbContext
+	select ok
+-add migration tool->nupackage->console 
+	add-migration InitialCreate
+-update Databse
+	update-database
+-run project
+-url/Student 
