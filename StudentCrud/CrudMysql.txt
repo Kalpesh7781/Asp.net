@@ -56,4 +56,4 @@ builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseMy
 -update Databse
 	update-database
 -run project
--url/Student 
+-https://localhost:44378/Students
